@@ -1,552 +1,290 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#fff8ef">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ع زوقك | 3a Zaw2ak</title>
   <style>
-    :root {
-      --orange: #ed7837;
-      --dark: #29251f;
-      --cream: #fff8ef;
-      --muted: #786f65;
-      --border: #eee1d2;
-    }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--cream);
-      color: var(--dark);
+      background: #fffaf4;
+      color: #242424;
     }
-
     header {
-      background: white;
-      padding: 17px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      color: var(--orange);
-    }
-
-    .tag {
-      background: #fff0e3;
-      color: #a84b17;
-      border-radius: 20px;
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-
-    .hero {
+      background: #163d2b;
+      color: white;
+      padding: 24px 16px;
       text-align: center;
-      padding: 35px 18px 25px;
     }
-
-    .hero h1 {
-      font-size: clamp(30px, 7vw, 47px);
-      margin: 10px 0;
+    header h1 { margin: 0 0 8px; font-size: 32px; }
+    header p { margin: 0; color: #e4eee5; }
+    .hero {
+      padding: 28px 16px;
+      text-align: center;
+      background: #f3e8d5;
     }
-
-    .hero h1 span { color: var(--orange); }
-
-    .hero p {
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 520px;
-      margin: auto;
-    }
-
-    main {
-      width: min(100% - 28px, 680px);
-      margin: auto;
-      padding-bottom: 35px;
-    }
-
+    .hero h2 { margin: 0 0 10px; }
+    .container { max-width: 760px; margin: auto; padding: 18px; }
     .card {
       background: white;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 17px;
-      box-shadow: 0 5px 20px #49321a08;
+      border: 1px solid #eadfce;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
     }
-
-    .card h2 {
-      font-size: 20px;
-      margin: 0 0 17px;
-    }
-
-    .field { margin-bottom: 19px; }
-    .field:last-child { margin-bottom: 0; }
-
-    label, .label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .choices {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .choice {
-      border: 1px solid var(--border);
-      padding: 13px 10px;
-      border-radius: 12px;
-      cursor: pointer;
-      background: white;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      line-height: 1.5;
-    }
-
-    .choice:has(input:checked) {
-      border: 2px solid var(--orange);
-      background: #fff5ec;
-      padding: 12px 9px;
-    }
-
-    .choice input { accent-color: var(--orange); }
-
-    .price {
-      color: var(--orange);
-      font-weight: bold;
-      margin-right: auto;
-      white-space: nowrap;
-    }
-
-    select, input[type="text"], input[type="tel"], textarea {
+    .food { font-size: 48px; text-align: center; }
+    h3 { margin: 8px 0; }
+    .muted { color: #666; font-size: 14px; }
+    label { display: block; margin: 14px 0 7px; font-weight: bold; }
+    select, input {
       width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font: inherit;
-      background: white;
-      color: var(--dark);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .quantity {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .quantity button {
-      width: 43px;
-      height: 43px;
-      font-size: 23px;
-      border: none;
-      border-radius: 12px;
-      background: #fff0e3;
-      color: var(--orange);
-      cursor: pointer;
-    }
-
-    .quantity strong { font-size: 20px; }
-
-    .summary {
-      background: #29251f;
-      color: white;
-      border-radius: 20px;
-      padding: 22px;
-      position: sticky;
-      bottom: 8px;
-      box-shadow: 0 8px 30px #0002;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-      color: #e9dfd5;
-    }
-
-    .total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #ffffff35;
-      padding-top: 16px;
-      font-weight: bold;
-      font-size: 19px;
-    }
-
-    .total strong {
-      color: #ffb477;
-      font-size: 27px;
-    }
-
-    .primary {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 18px;
-      font: inherit;
-      font-weight: bold;
-      cursor: pointer;
-      background: var(--orange);
-      color: white;
-    }
-
-    .primary:active { transform: scale(.99); }
-
-    .note {
-      font-size: 12px;
-      line-height: 1.7;
-      color: var(--muted);
-      margin-top: 12px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 22px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    #message {
-      margin-top: 15px;
       padding: 12px;
+      border: 1px solid #d5d5d5;
+      border-radius: 9px;
+      background: white;
+      font-size: 16px;
+    }
+    .checks { display: flex; flex-wrap: wrap; gap: 10px; }
+    .checks label {
+      background: #f7f3ec;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: normal;
+      margin: 0;
+    }
+    .checks input { width: auto; }
+    .price {
+      font-size: 23px;
+      font-weight: bold;
+      color: #17633e;
+      margin: 18px 0;
+    }
+    button {
+      width: 100%;
+      border: 0;
       border-radius: 10px;
-      display: none;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #17633e;
+      color: white;
     }
-
-    @media (max-width: 380px) {
-      .card { padding: 15px; }
-      .choices { grid-template-columns: 1fr; }
-      header { padding: 15px; }
+    button:active { opacity: .8; }
+    .secondary { background: #dfece2; color: #163d2b; }
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+      line-height: 1.8;
     }
+    footer { text-align: center; padding: 24px; color: #666; }
+    [hidden] { display: none !important; }
   </style>
 </head>
-
 <body>
   <header>
-    <div class="logo">🍕 ع زوقك</div>
-    <div class="tag">3a Zaw2ak · على ذوقك</div>
+    <h1>🍽️ ع زوقك</h1>
+    <p>3a Zaw2ak — طلبك، على ذوقك!</p>
   </header>
-
   <section class="hero">
-    <div style="font-size:48px">🍕 🍔 🥤</div>
-    <h1>طلبك، <span>على زوقك!</span></h1>
-    <p>
-      اختار مكوناتك، ركّب وجبتك متل ما بتحب،
-      وشوف السعر فورًا قبل ما تطلب.
-    </p>
+    <h2>جعان؟ خلّيها ع زوقك! 🇱🇧</h2>
+    <p>اختار أكلك، زبّط إضافاتك، وشوف السعر فورًا.</p>
   </section>
-
-  <main>
+  <main class="container">
     <section class="card">
-      <h2>🍕 ركّب البيتزا تبعك</h2>
-
-      <div class="field">
-        <span class="label">1. حجم البيتزا</span>
-        <div class="choices">
-          <label class="choice">
-            <input type="radio" name="size" value="small" checked>
-            <span>صغيرة</span>
-            <span class="price">$5</span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="size" value="medium">
-            <span>وسط</span>
-            <span class="price">$8</span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="size" value="large">
-            <span>كبيرة</span>
-            <span class="price">$11</span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="size" value="family">
-            <span>عائلية</span>
-            <span class="price">$15</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <span class="label">2. نوع العجينة</span>
-        <div class="choices">
-          <label class="choice">
-            <input type="radio" name="dough" value="0" checked>
-            <span>عادية</span>
-            <span class="price">مجانًا</span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="dough" value="1.5">
-            <span>محشية جبنة</span>
-            <span class="price">+$1.50</span>
-          </label>
-          <label class="choice">
-            <input type="radio" name="dough" value="1">
-            <span>رقيقة ومقرمشة</span>
-            <span class="price">+$1</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <span class="label">3. اختار المكونات الإضافية</span>
-        <div class="choices">
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1.5">
-            <span>جبنة إضافية</span>
-            <span class="price">+$1.50</span>
-          </label>
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1">
-            <span>فطر 🍄</span>
-            <span class="price">+$1</span>
-          </label>
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1">
-            <span>زيتون 🫒</span>
-            <span class="price">+$1</span>
-          </label>
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1.5">
-            <span>بيبروني</span>
-            <span class="price">+$1.50</span>
-          </label>
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1">
-            <span>فليفلة</span>
-            <span class="price">+$1</span>
-          </label>
-          <label class="choice">
-            <input type="checkbox" name="topping" value="1.5">
-            <span>دجاج</span>
-            <span class="price">+$1.50</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="sauce">4. الصوص</label>
-        <select id="sauce">
-          <option value="0">صوص طماطم — مجانًا</option>
-          <option value="0.5">باربكيو — +$0.50</option>
-          <option value="0.5">رانش — +$0.50</option>
-          <option value="0.75">صوص حار — +$0.75</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <span class="label">5. الكمية</span>
-        <div class="quantity">
-          <button type="button" id="minus" aria-label="إنقاص الكمية">−</button>
-          <strong id="qty">1</strong>
-          <button type="button" id="plus" aria-label="زيادة الكمية">+</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="notes">ملاحظات للمطبخ (اختياري)</label>
-        <textarea id="notes" placeholder="مثلاً: بلا زيتون، جبنة زيادة..."></textarea>
-      </div>
+      <h2>🍕 حضّر طلبك</h2>
+      <label for="food">اختار نوع الأكل</label>
+      <select id="food">
+        <option value="pizza">بيتزا</option>
+        <option value="burger">برغر</option>
+        <option value="manoushe">منقوشة</option>
+      </select>
+      <label for="size">الحجم</label>
+      <select id="size">
+        <option value="small">صغير</option>
+        <option value="medium" selected>وسط</option>
+        <option value="large">كبير</option>
+      </select>
+      <label for="quantity">الكمية</label>
+      <input id="quantity" type="number" min="1" max="20" value="1">
+      <label>اختار الإضافات</label>
+      <div class="checks" id="extras"></div>
+      <div class="price">السعر: $<span id="price">8.00</span></div>
+      <button id="add">أضف إلى السلة 🛒</button>
     </section>
-
     <section class="card">
+      <h2>🛒 سلّة طلباتك</h2>
+      <div id="cart"><p class="muted">بعدك ما أضفت شي.</p></div>
+      <div class="price">المجموع: $<span id="total">0.00</span></div>
+      <button class="secondary" id="checkout">كمّل طلبك</button>
+    </section>
+    <section class="card" id="customer" hidden>
       <h2>📍 معلومات التوصيل</h2>
-      <div class="field">
-        <label for="customer">اسمك</label>
-        <input id="customer" type="text" placeholder="الاسم الكامل">
-      </div>
-      <div class="field">
+      <form id="orderForm">
+        <label for="name">اسمك</label>
+        <input id="name" required placeholder="الاسم الكامل">
         <label for="phone">رقم الهاتف</label>
-        <input id="phone" type="tel" placeholder="مثلاً: 03 123 456">
-      </div>
-      <div class="field">
-        <label for="address">منطقتك وعنوانك</label>
-        <input id="address" type="text" placeholder="البلدة، الشارع، المبنى">
-      </div>
-      <div class="field">
-        <label for="delivery">طريقة الاستلام</label>
-        <select id="delivery">
-          <option value="0">استلام من المحل — مجانًا</option>
-          <option value="2">توصيل — +$2 (سعر تجريبي)</option>
-          <option value="3">توصيل بعيد — +$3 (سعر تجريبي)</option>
-        </select>
-      </div>
-    </section>
-
-    <section class="summary">
-      <h2 style="margin-top:0">🧾 ملخص طلبك</h2>
-      <div class="summary-row">
-        <span>البيتزا الواحدة</span>
-        <span id="unitPrice">$5.00</span>
-      </div>
-      <div class="summary-row">
-        <span>الكمية</span>
-        <span id="qtySummary">1</span>
-      </div>
-      <div class="summary-row">
-        <span>التوصيل</span>
-        <span id="deliveryPrice">$0.00</span>
-      </div>
-      <div class="total">
-        <span>المجموع</span>
-        <strong id="total">$5.00</strong>
-      </div>
-      <button class="primary" id="orderBtn" type="button">
-        جهّز طلبي 📲
-      </button>
-      <p class="note">
-        الأسعار بالدولار وهي أسعار تجريبية قابلة للتعديل.
-        هذا النموذج لا يرسل الطلب إلى مطعم تلقائيًا.
-      </p>
-      <div id="message" role="status"></div>
+        <input id="phone" type="tel" required placeholder="03 أو 70 أو 71...">
+        <label for="area">المنطقة والعنوان</label>
+        <input id="area" required placeholder="المدينة، الشارع، المبنى">
+        <label for="notes">ملاحظات (اختياري)</label>
+        <input id="notes" placeholder="مثلاً: بدون بصل">
+        <button type="submit">عرض تفاصيل الطلب</button>
+      </form>
+      <p class="muted">هذا نموذج تجريبي. الطلب لن يُرسل إلى مطعم.</p>
+      <div id="confirmation" hidden></div>
     </section>
   </main>
-
-  <footer>صُنع بحب في لبنان 🇱🇧 · ع زوقك © 2026</footer>
-
+  <footer>صُنع بلبنان ❤️ — ع زوقك © 2026</footer>
   <script>
-    const basePrices = {
-      small: 5,
-      medium: 8,
-      large: 11,
-      family: 15
+    const menu = {
+      pizza: {
+        name: "بيتزا",
+        prices: { small: 5, medium: 8, large: 11 },
+        extras: [
+          ["جبنة زيادة", 1.5],
+          ["بيبروني", 2],
+          ["فطر", 1],
+          ["زيتون", 0.5],
+          ["ذرة", 0.5]
+        ]
+      },
+      burger: {
+        name: "برغر",
+        prices: { small: 4, medium: 6, large: 8 },
+        extras: [
+          ["جبنة", 1],
+          ["لحم إضافي", 2.5],
+          ["بيكون", 2],
+          ["بطاطا", 1.5],
+          ["هالبينو", 0.5]
+        ]
+      },
+      manoushe: {
+        name: "منقوشة",
+        prices: { small: 1.5, medium: 2.5, large: 3.5 },
+        extras: [
+          ["جبنة", 1],
+          ["خضرة", 0.5],
+          ["زيتون", 0.5],
+          ["لبنة", 1],
+          ["زعتر زيادة", 0.5]
+        ]
+      }
     };
-
-    let quantity = 1;
-
-    const money = value => "$" + value.toFixed(2);
-
-    function calculate() {
-      const size = document.querySelector(
-        'input[name="size"]:checked'
-      ).value;
-
-      const dough = Number(document.querySelector(
-        'input[name="dough"]:checked'
-      ).value);
-
-      const toppings = [...document.querySelectorAll(
-        'input[name="topping"]:checked'
-      )].reduce((sum, item) => sum + Number(item.value), 0);
-
-      const sauce = Number(document.getElementById("sauce").value);
-      const delivery = Number(document.getElementById("delivery").value);
-
-      const unit = basePrices[size] + dough + toppings + sauce;
-      const total = unit * quantity + delivery;
-
-      document.getElementById("qty").textContent = quantity;
-      document.getElementById("qtySummary").textContent = quantity;
-      document.getElementById("unitPrice").textContent = money(unit);
-      document.getElementById("deliveryPrice").textContent = money(delivery);
-      document.getElementById("total").textContent = money(total);
-
-      return { size, dough, toppings, sauce, delivery, unit, total };
-    }
-
-    document.querySelectorAll("input, select").forEach(element => {
-      element.addEventListener("change", () => {
-        document.getElementById("message").style.display = "none";
-        calculate();
+    const $ = id => document.getElementById(id);
+    let cart = [];
+    function renderExtras() {
+      const item = menu[$("food").value];
+      $("extras").replaceChildren();
+      item.extras.forEach(([name, cost], index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.dataset.cost = cost;
+        input.value = name;
+        input.id = "extra" + index;
+        input.addEventListener("change", updatePrice);
+        label.append(input, " " + name + " (+$" + cost.toFixed(2) + ")");
+        $("extras").append(label);
       });
+      updatePrice();
+    }
+    function getPrice() {
+      const item = menu[$("food").value];
+      const base = item.prices[$("size").value];
+      const extras = [...$("extras").querySelectorAll("input:checked")]
+        .reduce((sum, input) => sum + Number(input.dataset.cost), 0);
+      const quantity = Math.max(1, Math.min(20, Number($("quantity").value) || 1));
+      return { unit: base + extras, quantity };
+    }
+    function updatePrice() {
+      const { unit, quantity } = getPrice();
+      $("price").textContent = (unit * quantity).toFixed(2);
+    }
+    function renderCart() {
+      $("cart").replaceChildren();
+      if (!cart.length) {
+        const p = document.createElement("p");
+        p.className = "muted";
+        p.textContent = "بعدك ما أضفت شي.";
+        $("cart").append(p);
+      } else {
+        cart.forEach((item, index) => {
+          const div = document.createElement("div");
+          div.className = "cart-item";
+          const description = document.createElement("div");
+          description.textContent =
+            item.name + " — " + item.size + " — كمية " +
+            item.quantity + (item.extras.length ? " — " + item.extras.join("، ") : "") +
+            " — $" + item.total.toFixed(2);
+          const remove = document.createElement("button");
+          remove.className = "secondary";
+          remove.textContent = "حذف";
+          remove.style.marginTop = "8px";
+          remove.addEventListener("click", () => {
+            cart.splice(index, 1);
+            renderCart();
+          });
+          div.append(description, remove);
+          $("cart").append(div);
+        });
+      }
+      $("total").textContent =
+        cart.reduce((sum, item) => sum + item.total, 0).toFixed(2);
+    }
+    $("food").addEventListener("change", renderExtras);
+    $("size").addEventListener("change", updatePrice);
+    $("quantity").addEventListener("input", updatePrice);
+    $("add").addEventListener("click", () => {
+      const food = menu[$("food").value];
+      const { unit, quantity } = getPrice();
+      const extras = [...$("extras").querySelectorAll("input:checked")]
+        .map(input => input.value);
+      cart.push({
+        name: food.name,
+        size: $("size").selectedOptions[0].textContent,
+        quantity,
+        extras,
+        total: unit * quantity
+      });
+      renderCart();
+      $("customer").hidden = false;
     });
-
-    document.getElementById("minus").addEventListener("click", () => {
-      quantity = Math.max(1, quantity - 1);
-      calculate();
-    });
-
-    document.getElementById("plus").addEventListener("click", () => {
-      quantity = Math.min(20, quantity + 1);
-      calculate();
-    });
-
-    document.getElementById("orderBtn").addEventListener("click", () => {
-      const name = document.getElementById("customer").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const notes = document.getElementById("notes").value.trim();
-      const delivery = document.getElementById("delivery").value;
-      const result = calculate();
-
-      const message = document.getElementById("message");
-      message.style.display = "block";
-
-      if (!name || !phone || (delivery !== "0" && !address)) {
-        message.style.background = "#fff0e3";
-        message.style.color = "#8c3d12";
-        message.textContent =
-          "باقي تعبي اسمك ورقم هاتفك، وعنوانك إذا اخترت التوصيل.";
+    $("checkout").addEventListener("click", () => {
+      if (!cart.length) {
+        alert("أضف أكلة إلى السلّة أولاً!");
         return;
       }
-
-      const sizeNames = {
-        small: "صغيرة",
-        medium: "وسط",
-        large: "كبيرة",
-        family: "عائلية"
-      };
-
-      const doughName = document.querySelector(
-        'input[name="dough"]:checked'
-      ).parentElement.innerText.trim();
-
-      const selectedToppings = [
-        ...document.querySelectorAll('input[name="topping"]:checked')
-      ].map(item => item.parentElement.innerText.trim());
-
-      const summary = [
-        "طلب جديد - ع زوقك",
-        "الاسم: " + name,
-        "الهاتف: " + phone,
-        "العنوان: " + (address || "استلام من المحل"),
-        "المنتج: بيتزا",
-        "الحجم: " + sizeNames[result.size],
-        "العجينة: " + doughName,
-        "الإضافات: " + (selectedToppings.join("، ") || "بدون إضافات"),
-        "الصوص: " + document.getElementById("sauce").selectedOptions[0].text,
-        "الكمية: " + quantity,
-        "ملاحظات: " + (notes || "لا يوجد"),
-        "المجموع: " + money(result.total)
-      ].join("\n");
-
-      message.style.background = "#e8f7e9";
-      message.style.color = "#205c2a";
-      message.textContent =
-        "تم تجهيز ملخص الطلب على جهازك. اضغط مطولًا لنسخه، أو استخدم زر المشاركة في متصفحك إذا توفر. الطلب لم يُرسل إلى المطعم.";
-
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(summary).then(() => {
-          message.textContent =
-            "تم نسخ ملخص الطلب! لكنه لم يُرسل إلى المطعم بعد.\n\n" + summary;
-        }).catch(() => {
-          message.textContent = summary;
-        });
-      } else {
-        message.textContent = summary;
-      }
+      $("customer").hidden = false;
+      $("customer").scrollIntoView({ behavior: "smooth" });
     });
-
-    calculate();
+    $("orderForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const order = {
+        customer: $("name").value.trim(),
+        phone: $("phone").value.trim(),
+        address: $("area").value.trim(),
+        notes: $("notes").value.trim(),
+        items: cart,
+        total: $("total").textContent
+      };
+      $("confirmation").hidden = false;
+      $("confirmation").replaceChildren();
+      const title = document.createElement("h3");
+      title.textContent = "تم تجهيز ملخّص طلبك التجريبي ✅";
+      const details = document.createElement("pre");
+      details.style.whiteSpace = "pre-wrap";
+      details.textContent = JSON.stringify(order, null, 2);
+      const warning = document.createElement("p");
+      warning.className = "muted";
+      warning.textContent =
+        "هذا الطلب لم يُرسل إلى أي مطعم، ولم تُحفظ بياناتك على خادم.";
+      $("confirmation").append(title, details, warning);
+    });
+    renderExtras();
   </script>
 </body>
 </html>
