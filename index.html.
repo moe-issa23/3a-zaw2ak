@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8ef">
+  <title>ع زوقك | 3a Zaw2ak</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff8ef;
+      color: #29251f;
+    }
+    header {
+      padding: 22px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-bottom: 1px solid #eee4d7;
+    }
+    .logo { font-size: 23px; font-weight: bold; }
+    .logo span { color: #e36b32; }
+    .hero {
+      text-align: center;
+      padding: 65px 20px 45px;
+    }
+    .hero h1 { font-size: 38px; margin-bottom: 12px; }
+    .hero p { color: #6d655c; line-height: 1.8; }
+    .btn {
+      display: inline-block;
+      background: #e36b32;
+      color: white;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    main { padding: 20px; max-width: 850px; margin: auto; }
+    h2 { margin-bottom: 18px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      padding: 25px 18px;
+      border-radius: 18px;
+      border: 1px solid #eee4d7;
+      text-align: center;
+    }
+    .emoji { font-size: 52px; }
+    .card p { color: #6d655c; line-height: 1.6; }
+    footer {
+      text-align: center;
+      padding: 35px 15px;
+      color: #6d655c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">ع <span>زوقك</span></div>
+    <span>🇱🇧 لبنان</span>
+  </header>
+
+  <section class="hero">
+    <h1>طلبك، على زوقك!</h1>
+    <p>
+      اختار أكلك، خصّص مكوّناتك، وخلي طلبك متل ما بتحب.
+      <br>
+      منبلّش بالأكل، ومنتوسّع لكل المحلات.
+    </p>
+    <a class="btn" href="#categories">اكتشف الخيارات</a>
+  </section>
+
+  <main id="categories">
+    <h2>شو عبالك اليوم؟</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="emoji">🍕</div>
+        <h3>بيتزا على زوقك</h3>
+        <p>اختار الحجم، الجبنة، والخضرة والإضافات.</p>
+      </article>
+
+      <article class="card">
+        <div class="emoji">🍔</div>
+        <h3>برغر على زوقك</h3>
+        <p>اختار نوع اللحم، الصوص، والإضافات.</p>
+      </article>
+
+      <article class="card">
+        <div class="emoji">🍟</div>
+        <h3>وجبات وإضافات</h3>
+        <p>اكتشف خيارات إضافية حسب قائمة المطعم.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <p>3a Zaw2ak — ع زوقك 🇱🇧</p>
+    <p>كل طلب إلو زوقه.</p>
+  </footer>
+</body>
+</html>
