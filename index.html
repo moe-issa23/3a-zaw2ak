@@ -284,7 +284,53 @@
         "هذا الطلب لم يُرسل إلى أي مطعم، ولم تُحفظ بياناتك على خادم.";
       $("confirmation").append(title, details, warning);
     });
-    renderExtras();
+    
+$("orderForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!cart.length) {
+    alert("أضف أكلة إلى السلّة أولاً!");
+    return;
+  }
+
+  const customer = $("name").value.trim();
+  const phone = $("phone").value.trim();
+  const address = $("area").value.trim();
+  const notes = $("notes").value.trim();
+
+  const lines = [
+    "🍽️ *طلب جديد من ع زوقك | 3a Zaw2ak*",
+    "",
+    "👤 الاسم: " + customer,
+    "📞 هاتف الزبون: " + phone,
+    "📍 العنوان: " + address,
+    "",
+    "🛒 *تفاصيل الطلب:*",
+    ...cart.map((item, i) =>
+      (i + 1) + ". " + item.name +
+      " - الحجم: " + item.size +
+      " - الكمية: " + item.quantity +
+      (item.extras.length
+        ? " - الإضافات: " + item.extras.join("، ")
+        : "") +
+      " - السعر: $" + item.total.toFixed(2)
+    ),
+    "",
+    "💰 *المجموع: $" + $("total").textContent + "*",
+    "📝 ملاحظات: " + (notes || "لا يوجد"),
+    "",
+    "تم إنشاء الطلب عبر موقع ع زوقك."
+  ];
+
+  const message = lines.join("\n");
+  const whatsappNumber = "96176058727";
+  const whatsappURL =
+    "https://wa.me/" + whatsappNumber +
+    "?text=" + encodeURIComponent(message);
+
+  window.open(whatsappURL, "_blank");
+});
+
   </script>
 </body>
 </html>
