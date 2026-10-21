@@ -1,356 +1,624 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#163d2b">
-  <meta name="description" content="ع زوقك — اختار أكلك وإضافاتك واطلب عبر WhatsApp.">
-  <title>ع زوقك | 3a Zaw2ak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#151515">
+  <title>ع زوقك | اطلب على ذوقك</title>
+
   <style>
-    * { box-sizing: border-box; }
     :root {
-      --green: #163d2b;
-      --green2: #17633e;
-      --cream: #fffaf4;
-      --beige: #f3e8d5;
-      --border: #eadfce;
+      --bg: #101010;
+      --card: #1c1c1c;
+      --text: #ffffff;
+      --muted: #b8b8b8;
+      --accent: #ffbd35;
+      --green: #25d366;
+      --border: #333;
     }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--cream);
-      color: #242424;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Tahoma, sans-serif;
+      line-height: 1.6;
     }
+
     header {
-      background: var(--green);
-      color: white;
-      padding: 25px 16px;
       text-align: center;
+      padding: 28px 15px;
+      background: linear-gradient(135deg, #262016, #121212);
+      border-bottom: 1px solid var(--border);
     }
-    header h1 { margin: 0 0 8px; font-size: 34px; }
-    header p { margin: 0; color: #e4eee5; }
-    .hero {
-      padding: 32px 16px;
-      text-align: center;
-      background: var(--beige);
+
+    header h1 {
+      margin: 0;
+      color: var(--accent);
+      font-size: 34px;
     }
-    .hero h2 { margin: 0 0 10px; font-size: 26px; }
-    .hero p { line-height: 1.8; }
-    .container { max-width: 760px; margin: auto; padding: 18px; }
-    .card {
-      background: white;
+
+    header p {
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .container {
+      width: min(100% - 24px, 1000px);
+      margin: 22px auto;
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 22px;
+      margin: 0 0 15px;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 15px;
+    }
+
+    .product, .panel {
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 17px;
       margin-bottom: 18px;
-      box-shadow: 0 4px 14px #00000008;
     }
-    .food-icon { text-align: center; font-size: 52px; }
+
+    .product h3 {
+      margin: 0 0 5px;
+      font-size: 21px;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 12px;
+    }
+
     label {
       display: block;
-      margin: 15px 0 7px;
-      font-weight: bold;
+      margin: 10px 0 5px;
+      font-size: 14px;
     }
-    select, input {
+
+    select, input, textarea {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #d5d5d5;
+      padding: 11px;
+      border: 1px solid #444;
       border-radius: 9px;
-      background: white;
-      font-size: 16px;
+      background: #111;
+      color: white;
+      font: inherit;
+      outline: none;
     }
-    .checks { display: flex; flex-wrap: wrap; gap: 9px; }
-    .checks label {
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      margin: 0 7px 0 0;
+      vertical-align: middle;
+    }
+
+    .ingredients {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px 10px;
+      margin: 8px 0 12px;
+    }
+
+    .ingredients label {
       display: flex;
       align-items: center;
-      gap: 7px;
-      background: #f7f3ec;
-      padding: 10px;
-      border-radius: 8px;
-      font-weight: normal;
-      margin: 0;
+      gap: 5px;
+      margin: 3px 0;
+      color: #eee;
+      font-size: 13px;
     }
-    .checks input { width: auto; }
+
     .price {
-      font-size: 22px;
+      color: var(--accent);
       font-weight: bold;
-      color: var(--green2);
-      margin: 20px 0;
+      font-size: 19px;
+      margin: 12px 0;
     }
+
     button {
-      width: 100%;
       border: 0;
       border-radius: 10px;
-      padding: 14px;
-      font-size: 16px;
+      padding: 12px 15px;
+      font: inherit;
       font-weight: bold;
       cursor: pointer;
-      background: var(--green2);
-      color: white;
     }
-    button:active { opacity: .8; }
-    button:disabled { opacity: .5; cursor: not-allowed; }
-    .secondary { background: #dfece2; color: var(--green); }
+
+    .add-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #171717;
+    }
+
+    .whatsapp-btn {
+      width: 100%;
+      background: var(--green);
+      color: #062b13;
+      font-size: 17px;
+      margin-top: 12px;
+    }
+
+    .remove-btn {
+      background: #402323;
+      color: #ffb8b8;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
     .cart-item {
-      border-bottom: 1px solid #eee;
-      padding: 14px 0;
-      line-height: 1.8;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
     }
-    .muted { color: #666; font-size: 14px; line-height: 1.7; }
-    .whatsapp-button { background: #168447; }
-    footer { text-align: center; padding: 24px; color: #666; }
-    [hidden] { display: none !important; }
+
+    .cart-item:last-child { border-bottom: 0; }
+
+    .cart-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .cart-details {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 21px;
+      font-weight: bold;
+      color: var(--accent);
+      margin-top: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 420px) {
+      header h1 { font-size: 29px; }
+      .ingredients { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <h1>🍽️ ع زوقك</h1>
-    <p>3a Zaw2ak — طلبك، على ذوقك!</p>
+    <h1>🍕 ع زوقك</h1>
+    <p>اختار أكلك، عدّل المكوّنات، واطلب على ذوقك!</p>
   </header>
-  <section class="hero">
-    <h2>جعان؟ خلّيها ع زوقك! 🇱🇧</h2>
-    <p>اختار أكلك، زبّط إضافاتك، وشوف السعر فورًا.</p>
-  </section>
+
   <main class="container">
-    <section class="card">
-      <div class="food-icon">🍕 🍔 🫓</div>
-      <h2>حضّر طلبك</h2>
-      <label for="food">نوع الأكل</label>
-      <select id="food">
-        <option value="pizza">🍕 بيتزا</option>
-        <option value="burger">🍔 برغر</option>
-        <option value="manoushe">🫓 منقوشة</option>
-      </select>
-      <label for="size">الحجم</label>
-      <select id="size">
-        <option value="small">صغير</option>
-        <option value="medium" selected>وسط</option>
-        <option value="large">كبير</option>
-      </select>
-      <label for="quantity">الكمية</label>
-      <input id="quantity" type="number" min="1" max="20" value="1">
-      <label>الإضافات</label>
-      <div class="checks" id="extras"></div>
-      <div class="price">السعر: $<span id="price">8.00</span></div>
-      <button id="add" type="button">أضف إلى السلة 🛒</button>
-    </section>
-    <section class="card">
-      <h2>🛒 سلّة طلباتك</h2>
-      <div id="cart"><p class="muted">بعدك ما أضفت شي.</p></div>
-      <div class="price">المجموع: $<span id="total">0.00</span></div>
-      <button class="secondary" id="checkout" type="button">كمّل طلبك</button>
-    </section>
-    <section class="card" id="customer" hidden>
-      <h2>📍 معلومات التوصيل</h2>
-      <form id="orderForm">
-        <label for="name">الاسم الكامل</label>
-        <input id="name" autocomplete="name" required placeholder="اسمك">
-        <label for="phone">رقم هاتفك</label>
-        <input id="phone" type="tel" autocomplete="tel" required
-               placeholder="مثلاً 03 أو 70 أو 71">
-        <label for="area">المنطقة والعنوان</label>
-        <input id="area" autocomplete="street-address" required
-               placeholder="المدينة، الشارع، المبنى">
-        <label for="notes">ملاحظات (اختياري)</label>
-        <input id="notes" placeholder="مثلاً: بدون بصل">
-        <button class="whatsapp-button" type="submit">
-          إرسال الطلب عبر WhatsApp 📲
-        </button>
-      </form>
-      <p class="muted">
-        ستُفتح رسالة الطلب في WhatsApp لتراجعها وترسلها بنفسك.
-        الطلب لا يُرسل تلقائيًا ولا تُحفظ بياناته على خادم.
+    <section>
+      <h2>🍽️ المنيو</h2>
+      <p class="hint">
+        اختار الحجم والكمية. فيك تضيف أو تشيل أي مكوّن مجانًا.
+        السعر بيتغيّر حسب الحجم والكمية فقط.
       </p>
+      <div id="menu" class="menu"></div>
+      <p id="dbStatus" class="status">عم نجهّز المنيو...</p>
+    </section>
+
+    <section class="panel">
+      <h2>🛒 سلّة الطلبات</h2>
+      <div id="cart">
+        <p class="hint">بعد ما تختار أكلك، رح يظهر هون.</p>
+      </div>
+      <div class="total">
+        <span>المجموع</span>
+        <span id="total">0.00$</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>📍 معلومات التوصيل</h2>
+      <div class="form-grid">
+        <div>
+          <label for="customerName">الاسم</label>
+          <input id="customerName" placeholder="اسمك الكامل" autocomplete="name">
+        </div>
+        <div>
+          <label for="customerPhone">رقم الهاتف</label>
+          <input id="customerPhone" type="tel" placeholder="مثال: 03 123 456" autocomplete="tel">
+        </div>
+        <div>
+          <label for="customerAddress">العنوان</label>
+          <input id="customerAddress" placeholder="المنطقة والشارع" autocomplete="street-address">
+        </div>
+      </div>
+
+      <label for="notes">ملاحظات إضافية (اختياري)</label>
+      <textarea id="notes" rows="3" placeholder="مثلاً: بدون بصل، أو تفاصيل إضافية..."></textarea>
+
+      <button class="whatsapp-btn" onclick="sendOrder()">
+        📲 إرسال الطلب عبر WhatsApp
+      </button>
+      <p class="hint">الطلب رح ينفتح كرسالة جاهزة على WhatsApp لتبعثها للمطعم.</p>
     </section>
   </main>
-  <footer>صُنع بلبنان ❤️ — ع زوقك © 2026</footer>
+
+  <footer>ع زوقك © 2026 — اطلب على ذوقك ❤️</footer>
+
   <script>
-    "use strict";
+    // =========================================
+    // 1) إعدادات الموقع
+    // =========================================
+
     const WHATSAPP_NUMBER = "96176058727";
-    const menu = {
-      pizza: {
+
+    // ضع رابط مشروع Supabase والمفتاح anon/public هنا.
+    // لا تضع أبدًا service_role key في هذا الملف.
+    const SUPABASE_URL = "";
+    const SUPABASE_ANON_KEY = "";
+
+    // =========================================
+    // 2) المنيو والأسعار الافتراضية
+    // الأسعار بالدولار، ويمكن تعديلها من هنا.
+    // =========================================
+
+    const products = [
+      {
+        id: "pizza",
+        dbName: "Classic Pizza",
         name: "بيتزا",
+        description: "بيتزا طازجة، حضّرها على ذوقك.",
         prices: { small: 5, medium: 8, large: 11 },
-        extras: [
-          ["جبنة زيادة", 1.5],
-          ["بيبروني", 2],
-          ["فطر", 1],
-          ["زيتون", 0.5],
-          ["ذرة", 0.5]
-        ]
+        sizes: { small: "صغيرة", medium: "وسط", large: "كبيرة" },
+        ingredients: ["جبنة", "زيتون", "فطر", "صلصة بندورة"]
       },
-      burger: {
+      {
+        id: "burger",
+        dbName: "Classic Burger",
         name: "برغر",
+        description: "برغر لذيذ مع المكوّنات اللي بتحبها.",
         prices: { small: 4, medium: 6, large: 8 },
-        extras: [
-          ["جبنة", 1],
-          ["لحم إضافي", 2.5],
-          ["بيكون", 2],
-          ["بطاطا", 1.5],
-          ["هالبينو", 0.5]
-        ]
+        sizes: { small: "عادي", medium: "دبل", large: "كبير" },
+        ingredients: ["قطعة لحم", "خس", "بندورة", "بصل", "مخلل", "جبنة"]
       },
-      manoushe: {
-        name: "منقوشة",
+      {
+        id: "manoushe",
+        dbName: "Zaatar Manoushe",
+        name: "منقوشة زعتر",
+        description: "منقوشة زعتر مع زيت زيتون.",
         prices: { small: 1.5, medium: 2.5, large: 3.5 },
-        extras: [
-          ["جبنة", 1],
-          ["خضرة", 0.5],
-          ["زيتون", 0.5],
-          ["لبنة", 1],
-          ["زعتر زيادة", 0.5]
-        ]
+        sizes: { small: "صغيرة", medium: "وسط", large: "كبيرة" },
+        ingredients: ["زعتر", "زيت زيتون"]
       }
-    };
-    const $ = id => document.getElementById(id);
+    ];
+
     let cart = [];
-    function getQuantity() {
-      const value = Number($("quantity").value);
-      return Number.isFinite(value)
-        ? Math.max(1, Math.min(20, Math.floor(value || 1)))
-        : 1;
-    }
-    function renderExtras() {
-      const item = menu[$("food").value];
-      $("extras").replaceChildren();
-      item.extras.forEach(([name, cost], index) => {
-        const label = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.dataset.cost = String(cost);
-        input.value = name;
-        input.id = "extra" + index;
-        input.addEventListener("change", updatePrice);
-        label.append(
-          input,
-          document.createTextNode(
-            name + " (+$" + cost.toFixed(2) + ")"
-          )
+    let nextCartId = 1;
+
+    // =========================================
+    // 3) جلب المكوّنات من Supabase (اختياري)
+    // =========================================
+
+    async function loadIngredientsFromSupabase() {
+      if (!SUPABASE_URL.trim() || !SUPABASE_ANON_KEY.trim()) {
+        document.getElementById("dbStatus").textContent =
+          "المنيو يعمل بالمكوّنات الافتراضية. أضف بيانات Supabase لتجربة الربط.";
+        return;
+      }
+
+      const baseUrl = SUPABASE_URL.replace(/\/+$/, "");
+      const headers = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY
+      };
+
+      try {
+        const menuResponse = await fetch(
+          baseUrl + "/rest/v1/menu_items?select=id,name,available&available=eq.true",
+          { headers }
         );
-        $("extras").append(label);
-      });
-      updatePrice();
-    }
-    function getPrice() {
-      const item = menu[$("food").value];
-      const base = item.prices[$("size").value];
-      const extras = [
-        ...$("extras").querySelectorAll("input:checked")
-      ].reduce((sum, input) => sum + Number(input.dataset.cost), 0);
-      const quantity = getQuantity();
-      return { unit: base + extras, quantity };
-    }
-    function updatePrice() {
-      const { unit, quantity } = getPrice();
-      $("price").textContent = (unit * quantity).toFixed(2);
-    }
-    function renderCart() {
-      $("cart").replaceChildren();
-      if (cart.length === 0) {
-        const p = document.createElement("p");
-        p.className = "muted";
-        p.textContent = "بعدك ما أضفت شي.";
-        $("cart").append(p);
-      } else {
-        cart.forEach((item, index) => {
-          const div = document.createElement("div");
-          div.className = "cart-item";
-          const description = document.createElement("div");
-          description.textContent =
-            item.name + " — " + item.size +
-            " — الكمية: " + item.quantity +
-            (item.extras.length
-              ? " — الإضافات: " + item.extras.join("، ")
-              : "") +
-            " — $" + item.total.toFixed(2);
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "secondary";
-          remove.style.marginTop = "8px";
-          remove.textContent = "حذف من السلة";
-          remove.addEventListener("click", () => {
-            cart.splice(index, 1);
-            renderCart();
-          });
-          div.append(description, remove);
-          $("cart").append(div);
+
+        if (!menuResponse.ok) {
+          throw new Error("تعذّر تحميل المنيو من قاعدة البيانات.");
+        }
+
+        const dbItems = await menuResponse.json();
+
+        const ingredientResponse = await fetch(
+          baseUrl + "/rest/v1/menu_item_ingredients?select=menu_item_id,ingredient_name",
+          { headers }
+        );
+
+        if (!ingredientResponse.ok) {
+          throw new Error("تعذّر تحميل المكوّنات من قاعدة البيانات.");
+        }
+
+        const dbIngredients = await ingredientResponse.json();
+
+        products.forEach(product => {
+          const dbItem = dbItems.find(item => item.name === product.dbName);
+
+          if (!dbItem) return;
+
+          const names = dbIngredients
+            .filter(ingredient => ingredient.menu_item_id === dbItem.id)
+            .map(ingredient => ingredient.ingredient_name)
+            .filter(Boolean);
+
+          if (names.length > 0) {
+            product.ingredients = names;
+          }
         });
+
+        renderMenu();
+
+        document.getElementById("dbStatus").textContent =
+          "تم تحميل المكوّنات من Supabase بنجاح.";
+      } catch (error) {
+        console.error(error);
+        document.getElementById("dbStatus").textContent =
+          "تعذّر الاتصال بـ Supabase؛ الموقع سيستعمل المكوّنات الافتراضية.";
       }
-      $("total").textContent = cart
-        .reduce((sum, item) => sum + item.total, 0)
-        .toFixed(2);
     }
-    $("food").addEventListener("change", renderExtras);
-    $("size").addEventListener("change", updatePrice);
-    $("quantity").addEventListener("input", updatePrice);
-    $("add").addEventListener("click", () => {
-      const food = menu[$("food").value];
-      const { unit, quantity } = getPrice();
-      const extras = [
-        ...$("extras").querySelectorAll("input:checked")
-      ].map(input => input.value);
+
+    // =========================================
+    // 4) عرض المنيو
+    // =========================================
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function renderMenu() {
+      const menu = document.getElementById("menu");
+
+      menu.innerHTML = products.map(product => {
+        const ingredientHTML = product.ingredients.map((ingredient, index) => `
+          <label>
+            <input
+              type="checkbox"
+              class="ingredient-check"
+              data-ingredient-index="${index}"
+              checked
+            >
+            <span>${escapeHTML(ingredient)}</span>
+          </label>
+        `).join("");
+
+        return `
+          <article class="product" data-product-id="${product.id}">
+            <h3>${escapeHTML(product.name)}</h3>
+            <p class="description">${escapeHTML(product.description)}</p>
+
+            <label for="size-${product.id}">الحجم</label>
+            <select id="size-${product.id}" onchange="updateProductPrice('${product.id}')">
+              ${Object.entries(product.sizes).map(([key, label]) => `
+                <option value="${key}">${escapeHTML(label)} — ${product.prices[key].toFixed(2)}$</option>
+              `).join("")}
+            </select>
+
+            <label for="qty-${product.id}">الكمية</label>
+            <select id="qty-${product.id}" onchange="updateProductPrice('${product.id}')">
+              ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => `
+                <option value="${number}">${number}</option>
+              `).join("")}
+            </select>
+
+            <label>المكوّنات — شيل الصح عن أي مكوّن ما بدك ياه:</label>
+            <div class="ingredients">${ingredientHTML}</div>
+
+            <div class="price" id="price-${product.id}">
+              ${product.prices.small.toFixed(2)}$
+            </div>
+
+            <button class="add-btn" onclick="addToCart('${product.id}')">
+              + أضف إلى السلّة
+            </button>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function updateProductPrice(productId) {
+      const product = products.find(item => item.id === productId);
+      const size = document.getElementById("size-" + productId).value;
+      const quantity = Number(document.getElementById("qty-" + productId).value);
+      const price = product.prices[size] * quantity;
+
+      document.getElementById("price-" + productId).textContent =
+        price.toFixed(2) + "$";
+    }
+
+    // =========================================
+    // 5) إضافة الأكل إلى السلّة
+    // =========================================
+
+    function addToCart(productId) {
+      const product = products.find(item => item.id === productId);
+      const card = document.querySelector(
+        '[data-product-id="' + productId + '"]'
+      );
+
+      const size = document.getElementById("size-" + productId).value;
+      const quantity = Number(document.getElementById("qty-" + productId).value);
+
+      const checkedBoxes = card.querySelectorAll(".ingredient-check");
+
+      const selectedIngredients = Array.from(checkedBoxes)
+        .filter(box => box.checked)
+        .map(box => product.ingredients[Number(box.dataset.ingredientIndex)]);
+
       cart.push({
-        name: food.name,
-        size: $("size").selectedOptions[0].textContent,
-        quantity,
-        extras,
-        total: Math.round(unit * quantity * 100) / 100
+        cartId: nextCartId++,
+        productId: product.id,
+        name: product.name,
+        size: size,
+        sizeName: product.sizes[size],
+        quantity: quantity,
+        unitPrice: product.prices[size],
+        ingredients: selectedIngredients
       });
+
       renderCart();
-      $("customer").hidden = false;
-    });
-    $("checkout").addEventListener("click", () => {
-      if (!cart.length) {
-        alert("أضف أكلة إلى السلّة أولاً!");
+      alert("تمت إضافة " + product.name + " إلى السلّة!");
+    }
+
+    // =========================================
+    // 6) السلّة وحساب المجموع
+    // =========================================
+
+    function getTotal() {
+      return cart.reduce(
+        (sum, item) => sum + item.unitPrice * item.quantity,
+        0
+      );
+    }
+
+    function renderCart() {
+      const cartElement = document.getElementById("cart");
+
+      if (cart.length === 0) {
+        cartElement.innerHTML =
+          '<p class="hint">السلّة فارغة. اختار شي من المنيو!</p>';
+      } else {
+        cartElement.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div class="cart-top">
+              <div>
+                <strong>${escapeHTML(item.name)} — ${escapeHTML(item.sizeName)}</strong>
+                <div class="cart-details">
+                  الكمية: ${item.quantity}<br>
+                  المكوّنات:
+                  ${item.ingredients.length
+                    ? item.ingredients.map(escapeHTML).join("، ")
+                    : "بدون مكوّنات إضافية"}<br>
+                  السعر: ${(item.unitPrice * item.quantity).toFixed(2)}$
+                </div>
+              </div>
+              <button class="remove-btn" onclick="removeFromCart(${item.cartId})">
+                حذف
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      document.getElementById("total").textContent = getTotal().toFixed(2) + "$";
+    }
+
+    function removeFromCart(cartId) {
+      cart = cart.filter(item => item.cartId !== cartId);
+      renderCart();
+    }
+
+    // =========================================
+    // 7) إرسال الطلب إلى WhatsApp
+    // =========================================
+
+    function sendOrder() {
+      if (cart.length === 0) {
+        alert("السلّة فارغة! أضف أكلك أولًا.");
         return;
       }
-      $("customer").hidden = false;
-      $("customer").scrollIntoView({ behavior: "smooth" });
-    });
-    $("orderForm").addEventListener("submit", event => {
-      event.preventDefault();
-      if (!cart.length) {
-        alert("أضف أكلة إلى السلّة أولاً!");
+
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const address = document.getElementById("customerAddress").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+
+      if (!name || !phone || !address) {
+        alert("عبّي الاسم ورقم الهاتف والعنوان قبل إرسال الطلب.");
         return;
       }
-      const customer = $("name").value.trim();
-      const phone = $("phone").value.trim();
-      const address = $("area").value.trim();
-      const notes = $("notes").value.trim();
-      if (!customer || !phone || !address) {
-        alert("عبّي الاسم ورقم الهاتف والعنوان.");
-        return;
-      }
+
       const lines = [
-        "🍽️ *طلب جديد من ع زوقك | 3a Zaw2ak*",
+        "🍕 *طلب جديد من ع زوقك*",
         "",
-        "👤 الاسم: " + customer,
-        "📞 هاتف الزبون: " + phone,
+        "👤 الاسم: " + name,
+        "📞 الهاتف: " + phone,
         "📍 العنوان: " + address,
         "",
-        "🛒 *تفاصيل الطلب:*",
-        ...cart.map((item, i) =>
-          (i + 1) + ". " + item.name +
-          " - الحجم: " + item.size +
-          " - الكمية: " + item.quantity +
-          (item.extras.length
-            ? " - الإضافات: " + item.extras.join("، ")
-            : "") +
-          " - السعر: $" + item.total.toFixed(2)
-        ),
-        "",
-        "💰 *المجموع: $" + $("total").textContent + "*",
-        "📝 ملاحظات: " + (notes || "لا يوجد"),
-        "",
-        "تم تجهيز الطلب عبر موقع ع زوقك."
+        "🛒 *تفاصيل الطلب:*"
       ];
-      const message = lines.join("\n");
+
+      cart.forEach((item, index) => {
+        lines.push("");
+        lines.push((index + 1) + ". " + item.name);
+        lines.push("الحجم: " + item.sizeName);
+        lines.push("الكمية: " + item.quantity);
+        lines.push(
+          "المكوّنات: " +
+          (item.ingredients.length ? item.ingredients.join("، ") : "بدون مكوّنات")
+        );
+        lines.push(
+          "السعر: " + (item.unitPrice * item.quantity).toFixed(2) + "$"
+        );
+      });
+
+      lines.push("");
+      lines.push("💰 *المجموع: " + getTotal().toFixed(2) + "$*");
+
+      if (notes) {
+        lines.push("");
+        lines.push("📝 ملاحظات: " + notes);
+      }
+
+      lines.push("");
+      lines.push("الطلب مرسل من موقع ع زوقك.");
+
+      const message = encodeURIComponent(lines.join("\n"));
       const whatsappURL =
-        "https://wa.me/" + WHATSAPP_NUMBER +
-        "?text=" + encodeURIComponent(message);
-      window.location.href = whatsappURL;
-    });
-    renderExtras();
+        "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message;
+
+      window.open(whatsappURL, "_blank");
+    }
+
+    // =========================================
+    // 8) تشغيل الموقع
+    // =========================================
+
+    renderMenu();
+    renderCart();
+    loadIngredientsFromSupabase();
   </script>
 </body>
 </html>
