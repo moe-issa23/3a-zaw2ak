@@ -89,18 +89,33 @@
   function status(message) {
     statusBox.textContent = message;
   }
-  function startClient() {
-    if (SUPABASE_URL.includes("https://dnpvbltrvpetksklvzrc.supabase.co") ||
-        SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRucHZibHRydnBldGtza2x2enJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1Njk4NjIsImV4cCI6MjEwODE0NTg2Mn0.mZX-bnf3MvisR5KlzopIfSXq3ynAONV-FdJN6PykvxI")) {
-      status("أضف رابط Supabase ومفتاح anon/publishable العام أولاً.");
-      return false;
-    }
-    if (!supabaseClient) {
-      supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-      );
-    }
+  
+function startClient() {
+  if (
+    !SUPABASE_URL.startsWith("https://") ||
+    SUPABASE_URL.includes("https://dnpvbltrvpetksklvzrc.supabase.co") ||
+    SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRucHZibHRydnBldGtza2x2enJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1Njk4NjIsImV4cCI6MjEwODE0NTg2Mn0.mZX-bnf3MvisR5KlzopIfSXq3ynAONV-FdJN6PykvxI") ||
+    !SUPABASE_ANON_KEY
+  ) {
+    status("تأكد من رابط Supabase والمفتاح العام.");
+    return false;
+  }
+
+  if (!window.supabase) {
+    status("مكتبة Supabase لم تُحمّل. حدّث الصفحة وحاول مجددًا.");
+    return false;
+  }
+
+  if (!supabaseClient) {
+    supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+  }
+
+  return true;
+}
+
     return true;
   }
   async function findRestaurant() {
