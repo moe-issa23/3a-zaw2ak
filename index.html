@@ -3,41 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163d2b">
+  <meta name="description" content="ع زوقك — اختار أكلك وإضافاتك واطلب عبر WhatsApp.">
   <title>ع زوقك | 3a Zaw2ak</title>
   <style>
     * { box-sizing: border-box; }
+    :root {
+      --green: #163d2b;
+      --green2: #17633e;
+      --cream: #fffaf4;
+      --beige: #f3e8d5;
+      --border: #eadfce;
+    }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #fffaf4;
+      background: var(--cream);
       color: #242424;
     }
     header {
-      background: #163d2b;
+      background: var(--green);
       color: white;
-      padding: 24px 16px;
+      padding: 25px 16px;
       text-align: center;
     }
-    header h1 { margin: 0 0 8px; font-size: 32px; }
+    header h1 { margin: 0 0 8px; font-size: 34px; }
     header p { margin: 0; color: #e4eee5; }
     .hero {
-      padding: 28px 16px;
+      padding: 32px 16px;
       text-align: center;
-      background: #f3e8d5;
+      background: var(--beige);
     }
-    .hero h2 { margin: 0 0 10px; }
+    .hero h2 { margin: 0 0 10px; font-size: 26px; }
+    .hero p { line-height: 1.8; }
     .container { max-width: 760px; margin: auto; padding: 18px; }
     .card {
       background: white;
-      border: 1px solid #eadfce;
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 14px #00000008;
     }
-    .food { font-size: 48px; text-align: center; }
-    h3 { margin: 8px 0; }
-    .muted { color: #666; font-size: 14px; }
-    label { display: block; margin: 14px 0 7px; font-weight: bold; }
+    .food-icon { text-align: center; font-size: 52px; }
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
     select, input {
       width: 100%;
       padding: 12px;
@@ -46,8 +59,11 @@
       background: white;
       font-size: 16px;
     }
-    .checks { display: flex; flex-wrap: wrap; gap: 10px; }
+    .checks { display: flex; flex-wrap: wrap; gap: 9px; }
     .checks label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       background: #f7f3ec;
       padding: 10px;
       border-radius: 8px;
@@ -56,10 +72,10 @@
     }
     .checks input { width: auto; }
     .price {
-      font-size: 23px;
+      font-size: 22px;
       font-weight: bold;
-      color: #17633e;
-      margin: 18px 0;
+      color: var(--green2);
+      margin: 20px 0;
     }
     button {
       width: 100%;
@@ -69,16 +85,19 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      background: #17633e;
+      background: var(--green2);
       color: white;
     }
     button:active { opacity: .8; }
-    .secondary { background: #dfece2; color: #163d2b; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .secondary { background: #dfece2; color: var(--green); }
     .cart-item {
       border-bottom: 1px solid #eee;
-      padding: 12px 0;
+      padding: 14px 0;
       line-height: 1.8;
     }
+    .muted { color: #666; font-size: 14px; line-height: 1.7; }
+    .whatsapp-button { background: #168447; }
     footer { text-align: center; padding: 24px; color: #666; }
     [hidden] { display: none !important; }
   </style>
@@ -94,12 +113,13 @@
   </section>
   <main class="container">
     <section class="card">
-      <h2>🍕 حضّر طلبك</h2>
-      <label for="food">اختار نوع الأكل</label>
+      <div class="food-icon">🍕 🍔 🫓</div>
+      <h2>حضّر طلبك</h2>
+      <label for="food">نوع الأكل</label>
       <select id="food">
-        <option value="pizza">بيتزا</option>
-        <option value="burger">برغر</option>
-        <option value="manoushe">منقوشة</option>
+        <option value="pizza">🍕 بيتزا</option>
+        <option value="burger">🍔 برغر</option>
+        <option value="manoushe">🫓 منقوشة</option>
       </select>
       <label for="size">الحجم</label>
       <select id="size">
@@ -109,36 +129,44 @@
       </select>
       <label for="quantity">الكمية</label>
       <input id="quantity" type="number" min="1" max="20" value="1">
-      <label>اختار الإضافات</label>
+      <label>الإضافات</label>
       <div class="checks" id="extras"></div>
       <div class="price">السعر: $<span id="price">8.00</span></div>
-      <button id="add">أضف إلى السلة 🛒</button>
+      <button id="add" type="button">أضف إلى السلة 🛒</button>
     </section>
     <section class="card">
       <h2>🛒 سلّة طلباتك</h2>
       <div id="cart"><p class="muted">بعدك ما أضفت شي.</p></div>
       <div class="price">المجموع: $<span id="total">0.00</span></div>
-      <button class="secondary" id="checkout">كمّل طلبك</button>
+      <button class="secondary" id="checkout" type="button">كمّل طلبك</button>
     </section>
     <section class="card" id="customer" hidden>
       <h2>📍 معلومات التوصيل</h2>
       <form id="orderForm">
-        <label for="name">اسمك</label>
-        <input id="name" required placeholder="الاسم الكامل">
-        <label for="phone">رقم الهاتف</label>
-        <input id="phone" type="tel" required placeholder="03 أو 70 أو 71...">
+        <label for="name">الاسم الكامل</label>
+        <input id="name" autocomplete="name" required placeholder="اسمك">
+        <label for="phone">رقم هاتفك</label>
+        <input id="phone" type="tel" autocomplete="tel" required
+               placeholder="مثلاً 03 أو 70 أو 71">
         <label for="area">المنطقة والعنوان</label>
-        <input id="area" required placeholder="المدينة، الشارع، المبنى">
+        <input id="area" autocomplete="street-address" required
+               placeholder="المدينة، الشارع، المبنى">
         <label for="notes">ملاحظات (اختياري)</label>
         <input id="notes" placeholder="مثلاً: بدون بصل">
-        <button type="submit">عرض تفاصيل الطلب</button>
+        <button class="whatsapp-button" type="submit">
+          إرسال الطلب عبر WhatsApp 📲
+        </button>
       </form>
-      <p class="muted">هذا نموذج تجريبي. الطلب لن يُرسل إلى مطعم.</p>
-      <div id="confirmation" hidden></div>
+      <p class="muted">
+        ستُفتح رسالة الطلب في WhatsApp لتراجعها وترسلها بنفسك.
+        الطلب لا يُرسل تلقائيًا ولا تُحفظ بياناته على خادم.
+      </p>
     </section>
   </main>
   <footer>صُنع بلبنان ❤️ — ع زوقك © 2026</footer>
   <script>
+    "use strict";
+    const WHATSAPP_NUMBER = "96176058727";
     const menu = {
       pizza: {
         name: "بيتزا",
@@ -176,6 +204,12 @@
     };
     const $ = id => document.getElementById(id);
     let cart = [];
+    function getQuantity() {
+      const value = Number($("quantity").value);
+      return Number.isFinite(value)
+        ? Math.max(1, Math.min(20, Math.floor(value || 1)))
+        : 1;
+    }
     function renderExtras() {
       const item = menu[$("food").value];
       $("extras").replaceChildren();
@@ -183,11 +217,16 @@
         const label = document.createElement("label");
         const input = document.createElement("input");
         input.type = "checkbox";
-        input.dataset.cost = cost;
+        input.dataset.cost = String(cost);
         input.value = name;
         input.id = "extra" + index;
         input.addEventListener("change", updatePrice);
-        label.append(input, " " + name + " (+$" + cost.toFixed(2) + ")");
+        label.append(
+          input,
+          document.createTextNode(
+            name + " (+$" + cost.toFixed(2) + ")"
+          )
+        );
         $("extras").append(label);
       });
       updatePrice();
@@ -195,9 +234,10 @@
     function getPrice() {
       const item = menu[$("food").value];
       const base = item.prices[$("size").value];
-      const extras = [...$("extras").querySelectorAll("input:checked")]
-        .reduce((sum, input) => sum + Number(input.dataset.cost), 0);
-      const quantity = Math.max(1, Math.min(20, Number($("quantity").value) || 1));
+      const extras = [
+        ...$("extras").querySelectorAll("input:checked")
+      ].reduce((sum, input) => sum + Number(input.dataset.cost), 0);
+      const quantity = getQuantity();
       return { unit: base + extras, quantity };
     }
     function updatePrice() {
@@ -206,7 +246,7 @@
     }
     function renderCart() {
       $("cart").replaceChildren();
-      if (!cart.length) {
+      if (cart.length === 0) {
         const p = document.createElement("p");
         p.className = "muted";
         p.textContent = "بعدك ما أضفت شي.";
@@ -217,13 +257,17 @@
           div.className = "cart-item";
           const description = document.createElement("div");
           description.textContent =
-            item.name + " — " + item.size + " — كمية " +
-            item.quantity + (item.extras.length ? " — " + item.extras.join("، ") : "") +
+            item.name + " — " + item.size +
+            " — الكمية: " + item.quantity +
+            (item.extras.length
+              ? " — الإضافات: " + item.extras.join("، ")
+              : "") +
             " — $" + item.total.toFixed(2);
           const remove = document.createElement("button");
+          remove.type = "button";
           remove.className = "secondary";
-          remove.textContent = "حذف";
           remove.style.marginTop = "8px";
+          remove.textContent = "حذف من السلة";
           remove.addEventListener("click", () => {
             cart.splice(index, 1);
             renderCart();
@@ -232,8 +276,9 @@
           $("cart").append(div);
         });
       }
-      $("total").textContent =
-        cart.reduce((sum, item) => sum + item.total, 0).toFixed(2);
+      $("total").textContent = cart
+        .reduce((sum, item) => sum + item.total, 0)
+        .toFixed(2);
     }
     $("food").addEventListener("change", renderExtras);
     $("size").addEventListener("change", updatePrice);
@@ -241,14 +286,15 @@
     $("add").addEventListener("click", () => {
       const food = menu[$("food").value];
       const { unit, quantity } = getPrice();
-      const extras = [...$("extras").querySelectorAll("input:checked")]
-        .map(input => input.value);
+      const extras = [
+        ...$("extras").querySelectorAll("input:checked")
+      ].map(input => input.value);
       cart.push({
         name: food.name,
         size: $("size").selectedOptions[0].textContent,
         quantity,
         extras,
-        total: unit * quantity
+        total: Math.round(unit * quantity * 100) / 100
       });
       renderCart();
       $("customer").hidden = false;
@@ -263,74 +309,48 @@
     });
     $("orderForm").addEventListener("submit", event => {
       event.preventDefault();
-      const order = {
-        customer: $("name").value.trim(),
-        phone: $("phone").value.trim(),
-        address: $("area").value.trim(),
-        notes: $("notes").value.trim(),
-        items: cart,
-        total: $("total").textContent
-      };
-      $("confirmation").hidden = false;
-      $("confirmation").replaceChildren();
-      const title = document.createElement("h3");
-      title.textContent = "تم تجهيز ملخّص طلبك التجريبي ✅";
-      const details = document.createElement("pre");
-      details.style.whiteSpace = "pre-wrap";
-      details.textContent = JSON.stringify(order, null, 2);
-      const warning = document.createElement("p");
-      warning.className = "muted";
-      warning.textContent =
-        "هذا الطلب لم يُرسل إلى أي مطعم، ولم تُحفظ بياناتك على خادم.";
-      $("confirmation").append(title, details, warning);
+      if (!cart.length) {
+        alert("أضف أكلة إلى السلّة أولاً!");
+        return;
+      }
+      const customer = $("name").value.trim();
+      const phone = $("phone").value.trim();
+      const address = $("area").value.trim();
+      const notes = $("notes").value.trim();
+      if (!customer || !phone || !address) {
+        alert("عبّي الاسم ورقم الهاتف والعنوان.");
+        return;
+      }
+      const lines = [
+        "🍽️ *طلب جديد من ع زوقك | 3a Zaw2ak*",
+        "",
+        "👤 الاسم: " + customer,
+        "📞 هاتف الزبون: " + phone,
+        "📍 العنوان: " + address,
+        "",
+        "🛒 *تفاصيل الطلب:*",
+        ...cart.map((item, i) =>
+          (i + 1) + ". " + item.name +
+          " - الحجم: " + item.size +
+          " - الكمية: " + item.quantity +
+          (item.extras.length
+            ? " - الإضافات: " + item.extras.join("، ")
+            : "") +
+          " - السعر: $" + item.total.toFixed(2)
+        ),
+        "",
+        "💰 *المجموع: $" + $("total").textContent + "*",
+        "📝 ملاحظات: " + (notes || "لا يوجد"),
+        "",
+        "تم تجهيز الطلب عبر موقع ع زوقك."
+      ];
+      const message = lines.join("\n");
+      const whatsappURL =
+        "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+      window.location.href = whatsappURL;
     });
-    
-$("orderForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  if (!cart.length) {
-    alert("أضف أكلة إلى السلّة أولاً!");
-    return;
-  }
-
-  const customer = $("name").value.trim();
-  const phone = $("phone").value.trim();
-  const address = $("area").value.trim();
-  const notes = $("notes").value.trim();
-
-  const lines = [
-    "🍽️ *طلب جديد من ع زوقك | 3a Zaw2ak*",
-    "",
-    "👤 الاسم: " + customer,
-    "📞 هاتف الزبون: " + phone,
-    "📍 العنوان: " + address,
-    "",
-    "🛒 *تفاصيل الطلب:*",
-    ...cart.map((item, i) =>
-      (i + 1) + ". " + item.name +
-      " - الحجم: " + item.size +
-      " - الكمية: " + item.quantity +
-      (item.extras.length
-        ? " - الإضافات: " + item.extras.join("، ")
-        : "") +
-      " - السعر: $" + item.total.toFixed(2)
-    ),
-    "",
-    "💰 *المجموع: $" + $("total").textContent + "*",
-    "📝 ملاحظات: " + (notes || "لا يوجد"),
-    "",
-    "تم إنشاء الطلب عبر موقع ع زوقك."
-  ];
-
-  const message = lines.join("\n");
-  const whatsappNumber = "96176058727";
-  const whatsappURL =
-    "https://wa.me/" + whatsappNumber +
-    "?text=" + encodeURIComponent(message);
-
-  window.open(whatsappURL, "_blank");
-});
-
+    renderExtras();
   </script>
 </body>
 </html>
