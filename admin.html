@@ -1,1 +1,257 @@
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163d2b">
+  <title>إدارة ع زوقك</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f4f7f4;
+      color: #183d2b;
+    }
+    main { max-width: 700px; margin: auto; }
+    h1 { text-align: center; }
+    .card {
+      background: white;
+      padding: 18px;
+      margin: 16px 0;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px #0000000d;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    input { border: 1px solid #ccc; }
+    button {
+      border: 0;
+      background: #174b32;
+      color: white;
+      cursor: pointer;
+    }
+    button.secondary { background: #68766d; }
+    button.danger { background: #a52a2a; }
+    .item {
+      border: 1px solid #dce5dd;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+    }
+    .hidden { display: none; }
+    #status { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>🍽️ إدارة ع زوقك</h1>
+  <p style="text-align:center">لوحة إدارة المنيو التجريبية</p>
+  <section class="card" id="login">
+    <h3>تسجيل الدخول</h3>
+    <input id="email" type="email" placeholder="البريد الإلكتروني" autocomplete="username">
+    <input id="password" type="password" placeholder="كلمة المرور" autocomplete="current-password">
+    <button id="loginBtn">دخول</button>
+    <button id="logoutBtn" class="secondary hidden">تسجيل الخروج</button>
+  </section>
+  <section class="card hidden" id="manager">
+    <h3>إضافة صنف</h3>
+    <input id="newName" placeholder="اسم الصنف بالإنجليزية، مثل Classic Pizza">
+    <input id="newCategory" placeholder="الفئة: pizza أو burger أو manoushe">
+    <input id="newPrice" type="number" min="0" step="0.01" placeholder="السعر بالدولار">
+    <button id="addBtn">إضافة الصنف</button>
+    <h3>الأصناف الحالية</h3>
+    <div id="items"></div>
+  </section>
+  <section class="card">
+    <p id="status">أدخل بيانات حسابك التجريبي لتسجيل الدخول.</p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ضع رابط مشروع Supabase ومفتاح anon/publishable العام هنا.
+  // لا تستخدم service_role أو secret key في هذا الملف.
+  const SUPABASE_URL = "PUT_YOUR_SUPABASE_URL_HERE";
+  const SUPABASE_ANON_KEY = "PUT_YOUR_SUPABASE_ANON_KEY_HERE";
+  const statusBox = document.getElementById("status");
+  const loginBox = document.getElementById("login");
+  const managerBox = document.getElementById("manager");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const itemsBox = document.getElementById("items");
+  let supabaseClient = null;
+  let restaurantId = null;
+  function status(message) {
+    statusBox.textContent = message;
+  }
+  function startClient() {
+    if (SUPABASE_URL.includes("https://dnpvbltrvpetksklvzrc.supabase.co") ||
+        SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRucHZibHRydnBldGtza2x2enJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1Njk4NjIsImV4cCI6MjEwODE0NTg2Mn0.mZX-bnf3MvisR5KlzopIfSXq3ynAONV-FdJN6PykvxI)) {
+      status("أضف رابط Supabase ومفتاح anon/publishable العام أولاً.");
+      return false;
+    }
+    if (!supabaseClient) {
+      supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+    }
+    return true;
+  }
+  async function findRestaurant() {
+    const { data: userData, error: userError } =
+      await supabaseClient.auth.getUser();
+    if (userError || !userData.user) {
+      throw new Error("سجّل الدخول أولاً.");
+    }
+    const { data, error } = await supabaseClient
+      .from("restaurants")
+      .select("id, name")
+      .eq("owner_id", userData.user.id)
+      .single();
+    if (error) {
+      throw new Error("تعذّر تحميل مطعمك. تأكد من سياسات القراءة.");
+    }
+    restaurantId = data.id;
+    status("تم تسجيل الدخول إلى: " + data.name);
+  }
+  async function loadItems() {
+    const { data, error } = await supabaseClient
+      .from("menu_items")
+      .select("id, name, category, price, available")
+      .eq("restaurant_id", restaurantId)
+      .order("id");
+    if (error) {
+      status("تعذّر تحميل الأصناف: " + error.message);
+      return;
+    }
+    itemsBox.replaceChildren();
+    for (const item of data || []) {
+      const card = document.createElement("div");
+      card.className = "item";
+      const name = document.createElement("input");
+      name.value = item.name;
+      name.setAttribute("aria-label", "اسم الصنف");
+      const category = document.createElement("input");
+      category.value = item.category || "";
+      category.setAttribute("aria-label", "الفئة");
+      const price = document.createElement("input");
+      price.type = "number";
+      price.min = "0";
+      price.step = "0.01";
+      price.value = item.price;
+      price.setAttribute("aria-label", "السعر");
+      const save = document.createElement("button");
+      save.textContent = "حفظ التعديلات";
+      save.onclick = async () => {
+        const newPrice = Number(price.value);
+        if (!name.value.trim() || !Number.isFinite(newPrice) || newPrice < 0) {
+          status("تأكد من اسم الصنف والسعر.");
+          return;
+        }
+        const { error: saveError } = await supabaseClient
+          .from("menu_items")
+          .update({
+            name: name.value.trim(),
+            category: category.value.trim(),
+            price: newPrice
+          })
+          .eq("id", item.id)
+          .eq("restaurant_id", restaurantId);
+        if (saveError) {
+          status("لم يتم الحفظ: " + saveError.message);
+          return;
+        }
+        status("تم حفظ التعديلات. حدّث صفحة الطلبات للتأكد.");
+      };
+      const availability = document.createElement("button");
+      availability.className = "secondary";
+      availability.textContent = item.available ? "إخفاء الصنف" : "إظهار الصنف";
+      availability.onclick = async () => {
+        const { error: updateError } = await supabaseClient
+          .from("menu_items")
+          .update({ available: !item.available })
+          .eq("id", item.id)
+          .eq("restaurant_id", restaurantId);
+        if (updateError) {
+          status("تعذّر تغيير حالة الصنف: " + updateError.message);
+          return;
+        }
+        status("تم تحديث حالة الصنف.");
+        await loadItems();
+      };
+      card.append(name, category, price, save, availability);
+      itemsBox.append(card);
+    }
+    if (!data || data.length === 0) {
+      itemsBox.textContent = "ما في أصناف مرتبطة بهالمطعم.";
+    }
+  }
+  document.getElementById("loginBtn").onclick = async () => {
+    if (!startClient()) return;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+    if (error) {
+      status("تعذّر تسجيل الدخول. تأكد من بيانات الحساب.");
+      return;
+    }
+    try {
+      await findRestaurant();
+      loginBox.querySelector("h3").textContent = "حسابك";
+      document.getElementById("loginBtn").classList.add("hidden");
+      logoutBtn.classList.remove("hidden");
+      managerBox.classList.remove("hidden");
+      await loadItems();
+    } catch (e) {
+      status(e.message);
+    }
+  };
+  logoutBtn.onclick = async () => {
+    if (supabaseClient) await supabaseClient.auth.signOut();
+    restaurantId = null;
+    managerBox.classList.add("hidden");
+    document.getElementById("loginBtn").classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    loginBox.querySelector("h3").textContent = "تسجيل الدخول";
+    status("تم تسجيل الخروج.");
+  };
+  document.getElementById("addBtn").onclick = async () => {
+    const name = document.getElementById("newName").value.trim();
+    const category = document.getElementById("newCategory").value.trim();
+    const price = Number(document.getElementById("newPrice").value);
+    if (!restaurantId || !name || !category ||
+        !Number.isFinite(price) || price < 0) {
+      status("أدخل اسم الصنف والفئة والسعر بشكل صحيح.");
+      return;
+    }
+    const { error } = await supabaseClient
+      .from("menu_items")
+      .insert({
+        name,
+        category,
+        price,
+        available: true,
+        restaurant_id: restaurantId
+      });
+    if (error) {
+      status("لم تتم إضافة الصنف. قد تحتاج سياسة INSERT آمنة في Supabase.");
+      return;
+    }
+    document.getElementById("newName").value = "";
+    document.getElementById("newCategory").value = "";
+    document.getElementById("newPrice").value = "";
+    status("تمت إضافة الصنف.");
+    await loadItems();
+  };
+</script>
+</body>
+</html>
